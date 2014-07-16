@@ -75,12 +75,12 @@ durations in a readable, concise fashion.
 Durations can thus easily be encoded into EDN files and send over the wire. A single glance allows to find the
 larger of two durations.
 
-# `clj-duration.core`
+## `clj-duration.core`
 
 The `clj-duration.core` namespace provides some example applications of durations,
 but `#unit/duration` could be used in multiple other places, e.g. everywhere a timeout is specified...
 
-## `duration`
+### `duration`
 Like `clojure.core/time` but prints readable durations.
 
 ```clojure
@@ -89,7 +89,7 @@ Like `clojure.core/time` but prints readable durations.
 ; => <return-val>
 ```
 
-## `measure-to-agent` and `measured`
+### `measure-to-agent` and `measured`
 Sometimes simply printing the duration is not enough, but the duration should be sent somewhere else.
 `measure-to-agent` wraps a function and sends the duration it took to execute the function to an agent,
 that gathers those measurements in a vector.
@@ -109,7 +109,7 @@ A scheduled task could aggregate those measurements and send to your monitoring 
 `measured` allows you to define your own `measurement-handler-fn` that could additionally record the arguments with
 which the wrapped function was invoked.
 
-## `schedule`
+### `schedule`
 
 Provides a data interface for Java's `ScheduledExecutorService`.
 
@@ -132,7 +132,7 @@ readability I decided against using this format as it is too dense, stops at *se
 (the first *M* means *month*, while the second *M* stands for *minutes* because it is preceded by the *T*).
 This might be personal taste, but I prefer `3Y 184D 12h 30m 5s` over `P3Y6M4DT12H30M5S`.
 
-# Testing
+## Testing
 
 ```
 lein test
