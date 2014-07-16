@@ -16,7 +16,8 @@
   (:require [clojure.string :as str])
   (:import java.time.Duration
            [java.time.format DateTimeParseException]
-           [java.time.temporal ChronoUnit]))
+           [java.time.temporal ChronoUnit]
+           [java.util.concurrent TimeUnit ScheduledExecutorService ScheduledFuture]))
 
 (set! *warn-on-reflection* true)
 
@@ -121,7 +122,7 @@
   (Duration/ofNanos nanos))
 
 (defmacro duration
-  "like 'time' but prints elapsed time as human-readable duration"
+  "Like 'clojure.core/time' but prints elapsed time as human-readable duration"
   [expr]
   `(let [start# (System/nanoTime)
          result# ~expr]
@@ -129,7 +130,7 @@
      result#))
 
 (defn measured
-  "wraps f such that its execution time is measured (as Duration) and
+  "Wraps f such that its execution time is measured (as Duration) and
   passed to measurement-fn along with the args f was invoked with, in that order."
   [measurement-fn f]
   (fn [& args]
@@ -148,5 +149,23 @@
     (fn [measurement & _]
       (send measurements-agent conj measurement))
     f))
+
+(let [unit TimeUnit/MILLISECONDS]
+  (defn schedule
+    "Schedules a task-fn for execution in the given ScheduledExecutorService with the given :delay.
+    The :schedule defines whether the task should be run :once, :at-fixed-rate or :with-fixed-delay. "
+    [^ScheduledExecutorService scheduled-executor
+     {:keys [schedule task-fn ^Duration delay ^Duration initial-delay]
+      :or {initial-delay Duration/ZERO}
+      :as params}]
+    {:pre [((every-pred :task-fn :delay :schedule) params)
+           (#{:once :at-fixed-rate :with-fixed-delay} schedule)]}
+    (let [initial-delay (.toMillis initial-delay)
+          delay (.toMillis delay)
+          scheduled-future (case schedule
+                             :once (.schedule scheduled-executor ^Runnable task-fn delay unit)
+                             :with-fixed-delay (.scheduleWithFixedDelay scheduled-executor task-fn initial-delay delay unit)
+                             :at-fixed-rate (.scheduleAtFixedRate scheduled-executor task-fn initial-delay delay unit))]
+      (fn [] (.cancel ^ScheduledFuture scheduled-future true)))))
 
 (set! *warn-on-reflection* false)
