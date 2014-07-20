@@ -1,4 +1,4 @@
-(defproject clj-duration "0.1.0-SNAPSHOT"
+(defproject clj-duration "1.0.0"
   :description "Human-friendly reader literal for durations"
   :url "https://github.com/gerrit-hntschl/clj-duration"
   :license {:name "Eclipse Public License"
