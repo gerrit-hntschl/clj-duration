@@ -2,6 +2,8 @@
 
 Human-friendly reader literal for durations.
 
+[![Clojars Project](http://clojars.org/clj-duration/latest-version.svg)](http://clojars.org/clj-duration)
+
 Provides the reader literal `#unit/duration` which models time-based amounts
 of time using java.time.Duration.
 
