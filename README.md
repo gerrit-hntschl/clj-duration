@@ -28,6 +28,7 @@ Supported units are:
 ## Leiningen dependency
 
 Add dependency to your `project.clj`:
+
 [![Clojars Project](http://clojars.org/clj-duration/latest-version.svg)](http://clojars.org/clj-duration)
 
 ## Motivation
