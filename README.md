@@ -2,8 +2,6 @@
 
 Human-friendly reader literal for durations.
 
-[![Clojars Project](http://clojars.org/clj-duration/latest-version.svg)](http://clojars.org/clj-duration)
-
 Provides the reader literal `#unit/duration` which models time-based amounts
 of time using java.time.Duration.
 
@@ -26,6 +24,11 @@ Supported units are:
 `#unit/duration` prints only non-zero duration-units to increase readability.
 
 ### Note: this library requires JDK8.
+
+## Leiningen dependency
+
+Add dependency to your `project.clj`:
+[![Clojars Project](http://clojars.org/clj-duration/latest-version.svg)](http://clojars.org/clj-duration)
 
 ## Motivation
 
@@ -134,8 +137,18 @@ readability I decided against using this format as it is too dense, stops at *se
 (the first *M* means *month*, while the second *M* stands for *minutes* because it is preceded by the *T*).
 This might be personal taste, but I prefer `3Y 184D 12h 30m 5s` over `P3Y6M4DT12H30M5S`.
 
-## Testing
 
+## Project maturity
+
+As of July 2014, this is a first cut that is well tested but might be extended if necessary.
+
+## Supported Clojure versions
+
+`clj-duration` has passed tests on Clojure 1.4 and later.
+
+## Development & Testing
+
+Make sure to have [Leiningen 2](https://github.com/technomancy/leiningen) installed. Run tests using:
 ```
 lein test
 ```
